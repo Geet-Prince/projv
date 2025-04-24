@@ -1,1 +1,30 @@
-create a database 
+create a database csr_db
+use this in your sqlworkbwnch
+-- First, connect to your database (if using command line):
+-- USE csr_db;
+
+-- Drop the table if it already exists (to start fresh)
+DROP TABLE IF EXISTS `requests`;
+
+-- Create the table with all the correct columns
+CREATE TABLE `requests` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `submission_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `full_name` VARCHAR(255) NOT NULL,         -- <<< This column was missing or named differently
+    `email` VARCHAR(255) NOT NULL,
+    `phone` VARCHAR(50) NULL,
+    `customer_id` VARCHAR(100) NULL,
+    `request_type` VARCHAR(100) NOT NULL,
+    `subject` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `file_path` VARCHAR(512) NULL,              -- To store the filename of uploads
+    `city` VARCHAR(100) NULL,
+    `state` VARCHAR(100) NULL,
+    `postal_code` VARCHAR(20) NULL,
+    `preferred_contact_time` VARCHAR(50) NULL,  -- Matches the last value in Python tuple
+    INDEX `idx_email` (`email`),
+    INDEX `idx_request_type` (`request_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+in cmd pip install Flask mysql-connector-python
+flask --app app init-dbcreate a database 
