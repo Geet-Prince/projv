@@ -55,3 +55,4 @@ FLUSH PRIVILEGES;
 
 in cmd pip install Flask mysql-connector-python
 flask --app app init-dbcreate a database 
+flask --app app init-db
