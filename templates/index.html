@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support Center - Professional Helpdesk</title>
+    <!-- Link to Google Fonts (Optional but nice) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Link to our Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">Support Hub</h1>
+                <p class="tagline">Your trusted partner for seamless support.</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#csr-form" class="cta-nav">Submit Request</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="container content-section">
+            <h2>About Our Support Center</h2>
+            <p>Welcome to Support Hub! We are dedicated to providing timely, efficient, and friendly assistance for all your product and service inquiries. Our expert team is ready to tackle technical issues, clarify billing questions, process returns, and listen to your valuable feedback. Our goal is to ensure your experience with us is smooth and satisfactory.</p>
+        </section>
+
+        <section id="services" class="container content-section bg-light">
+            <h2>How We Can Help You</h2>
+            <div class="service-items">
+                <div class="service-item">
+                    <!-- Add your icon path here -->
+                    <!-- <img src="{{ url_for('static', filename='icons/tech-support.svg') }}" alt="Technical Support Icon" class="service-icon"> -->
+                    <h3>Technical Support</h3>
+                    <p>Troubleshooting and resolving technical difficulties.</p>
+                </div>
+                <div class="service-item">
+                    <!-- <img src="{{ url_for('static', filename='icons/billing.svg') }}" alt="Billing Icon" class="service-icon"> -->
+                    <h3>Billing Inquiries</h3>
+                    <p>Assistance with invoices, payments, and account queries.</p>
+                </div>
+                <div class="service-item">
+                    <!-- <img src="{{ url_for('static', filename='icons/return.svg') }}" alt="Return Icon" class="service-icon"> -->
+                    <h3>Product Returns</h3>
+                    <p>Guidance through the return and exchange process.</p>
+                </div>
+                 <div class="service-item">
+                    <!-- <img src="{{ url_for('static', filename='icons/feedback.svg') }}" alt="Feedback Icon" class="service-icon"> -->
+                    <h3>Feedback & Suggestions</h3>
+                    <p>We value your input to help us improve our services.</p>
+                </div>
+                 <div class="service-item">
+                    <!-- <img src="{{ url_for('static', filename='icons/inquiry.svg') }}" alt="Inquiry Icon" class="service-icon"> -->
+                    <h3>General Inquiries</h3>
+                    <p>Answering your general questions about us.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="csr-form" class="container content-section">
+            <h2>Submit Your Request</h2>
+            <p>Use the secure form below to detail your issue. Providing clear information helps us resolve it faster.</p>
+
+            <!-- Flash Messages Display Area -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="flashes">
+                {% for category, message in messages %}
+                  <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+            <!-- End Flash Messages -->
+
+            <form action="/submit_csr" method="POST" enctype="multipart/form-data" class="support-form">
+                <fieldset>
+                    <legend>1. Your Contact Information</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="full_name">Full Name <span class="required">*</span></label>
+                            <input type="text" id="full_name" name="full_name" required placeholder="e.g., Jane Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="e.g., jane.doe@example.com">
+                        </div>
+                    </div>
+                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="e.g., (555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_id">Customer/Order ID</label>
+                            <input type="text" id="customer_id" name="customer_id" placeholder="If applicable">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>2. Details of Your Request</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="request_type">Type of Request <span class="required">*</span></label>
+                            <select id="request_type" name="request_type" required>
+                                <option value="" disabled selected>-- Select an Option --</option>
+                                <option value="Technical Issue">Technical Issue</option>
+                                <option value="Billing Query">Billing Query</option>
+                                <option value="Product Return">Product Return</option>
+                                <option value="Feedback">Feedback</option>
+                                <option value="General Inquiry">General Inquiry</option>
+                            </select>
+                        </div>
+                         <div class="form-group">
+                            <label for="subject">Subject <span class="required">*</span></label>
+                            <input type="text" id="subject" name="subject" required placeholder="A brief summary of your issue">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Describe the Issue in Detail <span class="required">*</span></label>
+                        <textarea id="description" name="description" rows="6" required placeholder="Please provide as much detail as possible..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachment">Attach Supporting File (Optional)</label>
+                        <input type="file" id="attachment" name="attachment" class="file-input">
+                        <small>Max 5MB. Allowed: jpg, png, pdf, doc, docx, txt</small>
+                    </div>
+                </fieldset>
+
+                 <fieldset>
+                    <legend>3. Location & Preferences (Optional)</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city">
+                        </div>
+                         <div class="form-group">
+                            <label for="state">State/Province</label>
+                            <input type="text" id="state" name="state">
+                        </div>
+                         <div class="form-group">
+                            <label for="postal_code">Postal Code</label>
+                            <input type="text" id="postal_code" name="postal_code">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="contact_time">Preferred Contact Time</label>
+                        <select id="contact_time" name="contact_time">
+                            <option value="Any Time">Any Time</option>
+                            <option value="Morning (9AM-12PM)">Morning (9AM-12PM Local)</option>
+                            <option value="Afternoon (1PM-5PM)">Afternoon (1PM-5PM Local)</option>
+                            <option value="Evening (5PM-8PM)">Evening (5PM-8PM Local)</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <fieldset class="confirmation-fieldset">
+                    <legend>4. Confirmation</legend>
+                    <div class="form-group confirmation-group">
+                         <input type="checkbox" id="confirmation" name="confirmation" required>
+                         <label for="confirmation">I confirm the information provided is accurate. <span class="required">*</span></label>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="submit-btn btn">Send Your Request</button>
+            </form>
+        </section>
+
+        <section id="contact" class="container content-section">
+            <h2>Alternative Contact Methods</h2>
+            <p>While the form above is the fastest way to log your request, you can also reach us here:</p>
+            <div class="contact-details">
+                <p><strong>Email:</strong> <a href="mailto:support@supporthub.example.com">support@supporthub.example.com</a></p>
+                <p><strong>Phone:</strong> 1-800-555-HELP (4357)</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2023 Support Hub. Professional Customer Service.</p>
+            <!-- Add social media links here if needed -->
+        </div>
+    </footer>
+
+</body>
+</html>
